@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace TEST
+{
+public class Testing_Architect : MonoBehaviour
+    {
+        DialogueSystem ds;
+        TextArchitect architect;
+
+        public TextArchitect.BuildMethod bm = TextArchitect.BuildMethod.instant;
+
+
+        string[] lines = new string[7]
+        {
+            "This is a line of dialogue",
+            "I want to say something",
+            "aaaaaaaaaaa",
+            "I love the flowers and the bees!",
+            "...",
+            "Radomly generated!",
+            "Play Ghost Trick: Phantom Detective NOW."
+        };
+
+        void Start()
+        {
+            ds = DialogueSystem.instance;
+            architect = new TextArchitect(ds.dialogueContainer.dialogueText);
+            architect.buildMethod = TextArchitect.BuildMethod.fade;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (bm != architect.buildMethod)
+            {
+                architect.buildMethod = bm;
+                architect.Stop();
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+                architect.Stop();
+
+            if (bm != architect.buildMethod)
+            {
+                architect.buildMethod = bm;
+                architect.Stop();
+            }
+
+
+
+            string longLine = "Hey buddy, how ya doin?";
+
+            if (Input.GetKeyDown(KeyCode.Space))
+                
+                if (architect.isBuilding)
+                {
+                    if (!architect.hurryUp)
+                        architect.hurryUp = true;
+                    else
+                        architect.ForceComplete();
+                        
+                }
+
+                else
+                {
+                    architect.Build(longLine);
+                    //architect.Build(lines[Random.Range(0,lines.Length)]);
+                }
+                
+
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                architect.Append(longLine);
+                //architect.Append(lines[Random.Range(0,lines.Length)]);
+            }
+            
+        }
+    }
+}
